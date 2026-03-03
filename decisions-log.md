@@ -60,3 +60,38 @@ Running log of all major strategic and product decisions. Append new entries at 
 **Status:** Codename only — real name TBD
 
 ---
+
+### 2026-03-02 — Tech Stack: Phaser 3 + PlayFab
+
+**Decision:** Game engine is Phaser 3. Backend is PlayFab (Azure).
+**Rationale:** Phaser 3 is the most mature HTML5 RPG engine with strong community support and solid AI code-gen coverage. PlayFab has a built-in gacha/economy system, server-side RNG (critical for provably fair pulls), and a 10K DAU free tier — avoids building a game economy backend from scratch as a solo founder.
+**Alternatives considered:** Cocos2d-JS (g123's stack — less Western community), PixiJS custom (too much boilerplate), Godot 4 web export (web target still maturing).
+**Status:** Final
+
+---
+
+### 2026-03-02 — Launch Scope: US Only (Phase 1)
+
+**Decision:** Launch targeting the US market only. GDPR and EU gacha regulation deferred.
+**Rationale:** Simplifies legal and compliance surface area. US has no federal gacha law and no GDPR equivalent. Allows faster launch without expensive international legal scaffolding. EU expansion planned for Phase 2.
+**Alternatives considered:** US + Western Europe simultaneously (rejected — GDPR compliance and BE/NL gacha law require significant upfront legal work not worth it pre-traction).
+**Status:** Final — revisit at meaningful EU traffic
+
+---
+
+### 2026-03-02 — Payment Processor: Stripe
+
+**Decision:** Stripe for payment processing at launch.
+**Rationale:** Simplest integration for a US-only launch. Lower fees than Xsolla (~2.9% vs ~5%). Excellent developer tooling.
+**Alternatives considered:** Xsolla (better for global/EU at scale — revisit at ~$10K/mo revenue), PayPal (weaker for recurring/subscription).
+**Status:** Final — revisit Xsolla migration at scale
+
+---
+
+### 2026-03-02 — IP Strategy: Defer Concepting
+
+**Decision:** Flagship IP concept and trademark filing deferred. Art direction to be determined via collaborative working session.
+**Rationale:** Tech stack and scope decisions take priority. IP filing requires a finalized concept and brand name. Art direction needs to be right before building anything visual.
+**Status:** Deferred — art direction session scheduled as next active task
+
+---
