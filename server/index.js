@@ -14,7 +14,8 @@ const express = require('express');
 const cors = require('cors');
 
 const stripeRoutes = require('./stripe/routes');
-const gameRoutes = require('./playfab/routes');
+const gameRoutes  = require('./playfab/routes');
+const imageRoutes = require('./falai/routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +36,11 @@ app.use(express.json());
 // Game API (PlayFab-backed)
 // ---------------------------------------------------------------------------
 app.use('/api/game', gameRoutes);
+
+// ---------------------------------------------------------------------------
+// Image generation API (fal.ai — dev/admin use only)
+// ---------------------------------------------------------------------------
+app.use('/api/image', imageRoutes);
 
 // ---------------------------------------------------------------------------
 // Health check

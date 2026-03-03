@@ -1,12 +1,12 @@
 # Handoff File
 
-_Last updated: 2026-03-03 (session 5)_
+_Last updated: 2026-03-03 (session 6)_
 
 ---
 
 ## Current Focus
 
-Technical foundation is complete. Next immediate task is the **art direction & game concept session** — the first creative working session to lock visual identity, flagship IP concept, and visual style. All infra scaffolds are built and committed. **Operator strategy: frugal mode** — no artist spend (AI-generated art pipeline), no paid UA initially (organic/community-led growth).
+**Worldbuilding session in progress.** Game format is locked (card-expressed combat RPG). Contemporary supernatural setting confirmed. First character concept under development. Session goal: fill in `characters/_world/WORLD-BIBLE.md`, create first character `characters/[Name]/SOUL.md`, and draft the core retention/gacha mechanics document.
 
 ---
 
@@ -20,83 +20,68 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 - **Differentiators:** Original IP ownership, Fair Play Pledge (ethical gacha), western-native identity
 - **Tech stack:** Phaser 3 (game engine) + PlayFab (backend/economy) + Stripe (payments)
 - **Codename:** Yada — real brand name TBD
-- **IP/trademark:** Deferred until flagship concept is locked in art direction session
-- **Art approach:** AI-generated (fal.ai / Flux) — no hired artist at this stage
+- **Art approach:** AI-generated (fal.ai / Flux) — no hired artist at this stage ✅ INTEGRATED
 - **Growth approach:** Organic / community-led — no paid UA until proven retention
+- **Game format:** Card-expressed combat RPG (NOT full RPG, NOT deck-builder). Characters are the collectible. Cards express character abilities in turn-based combat. FGO/Granblue model. ← NEW SESSION 6
 
 ---
 
-## Completed This Session (Session 5 — 2026-03-03)
+## Completed This Session (Session 6 — 2026-03-03)
 
-### ✅ AI Advisor Report
-- File: `yada-ai-advisor-report.docx`
-- All 10 AI surfaces confirmed greenfield (no existing integrations)
-- Top priority: fal.ai Flux image gen (score 5.00) — `GachaScreen.js` has a literal `[Banner Art]` placeholder, making this the most urgent item
-- 6 prioritized recommendations with pricing verified: fal.ai Flux.1 [schnell] $0.003/MP, Cursor Pro $20/mo, Claude Haiku $1/$5 per M tokens, Vercel AI SDK free, Braintrust free tier
-- 90-day roadmap included: Month 1 = Cursor + fal.ai; Month 2 = Haiku dialogue; Month 3 = eval pipeline
+### ✅ fal.ai Server Integration
+- `server/falai/client.js` — fal.ai client wrapper, model catalog (schnell/dev/pro), `generateImage()` function
+- `server/falai/routes.js` — Express router: `GET /api/image/models`, `POST /api/image/generate`
+- `server/package.json` — `@fal-ai/client: ^1.3.0` added
+- `server/index.js` — `/api/image` routes registered
+- **Still needs:** `FAL_KEY=your_key_here` added to `server/.env` (get from https://fal.ai/dashboard/keys), then `npm install` in `server/`
 
-### ✅ AI Content Pipeline Operating System (OpenClaw-inspired)
-Implemented a three-layer markdown-file OS for all AI content generation, modeled on the OpenClaw agent architecture. The core insight: the model doesn't get smarter, the files around it do. Every correction logged once prevents the same correction forever — that's the compounding moat.
+### ✅ Image Generation Guide Updated
+- `ai/guides/image-generation.md` — full rewrite with real API workflow, working curl examples, prompt templates for portrait/square/banner, seed-locking workflow, cost breakdown per image
 
-**New directories:**
-- `characters/` — Character identity files
-  - `characters/TEMPLATE.md` — SOUL.md blank starter (copy per new character in art session). Includes: Core Identity, Visual Identity (with fal.ai Flux seed slot), Voice & Dialogue (with "What they'd NEVER say" guardrails), Role in World, Relationships, Generation Seeds.
-  - `characters/_world/WORLD-BIBLE.md` — World lore foundation (stub, fill in at art direction session)
-- `ai/` — Pipeline operating system
-  - `ai/USER.md` — Robert's preferences + Yada brand voice (load before every content session)
-  - `ai/AGENTS.md` — Session startup rules: explicit load order per content type (banner art, dialogue, lore, marketing copy)
-  - `ai/shared-context/BRAND.md` — Yada identity, fair play pledge, visual direction (visual section pending art session)
-  - `ai/shared-context/FEEDBACK-LOG.md` — Cross-content correction moat (starts empty, grows with every correction)
-  - `ai/feedback/` — Dated rejection logs (format: `YYYY-MM-DD.md`)
-  - `ai/guides/image-generation.md` — fal.ai Flux workflow: model selection, prompt construction, session flow, rejection logging
-  - `ai/guides/dialogue.md` — Claude Haiku workflow: prompt construction, dialogue types, quality checklist
+### ✅ Strategic Format Decision
+- Full RPG direction reconsidered after analysis of G123 portfolio (DxD = most popular title, card format)
+- Locked: **card-expressed combat RPG** as flagship game format
+- Rationale: 4–6 month MVP solo vs. 12–18 months for full RPG; Phaser 3 natural fit; FGO proves characters + narrative carry thin mechanics; existing gacha scaffold unchanged
 
-**How to use in the art direction session:** For every character conceived, copy `characters/TEMPLATE.md` → `characters/[CharacterName]/SOUL.md` and fill in during the session. The Flux seed section stays blank until first images are approved.
-
-**The compounding habit:** When generated content is rejected, log one line in `ai/feedback/YYYY-MM-DD.md`. After 3+ recurrences, promote to `ai/shared-context/FEEDBACK-LOG.md`. That correction then applies to all future generation automatically.
+### ✅ Decisions Log + Handoff Updated
 
 ---
 
-## Completed This Session (Session 4 — 2026-03-03)
+## Completed Previous Sessions (Sessions 1–5)
 
-### ✅ Phaser 3 Game Client Scaffold (commit `78778d6`)
-13 files committed and pushed. Full client architecture:
-- `game/package.json` — Phaser 3.87 + Vite 5.4, type: module
-- `game/vite.config.js` — port 8080, `/api` proxy → Express :3000, Phaser split chunk
-- `game/src/config.js` — GAME constants: PULL_COST=160, HARD_PITY=90, SOFT_PITY_START=74
-- `game/src/main.js` — Phaser.Game, AUTO renderer, 7 scenes registered
-- `game/src/scenes/` — Boot, Preloader, MainMenu (localStorage login), Game
-- `game/src/ui/HUD.js` — gem + stamina, registry event listener
-- `game/src/ui/GachaScreen.js` — pity state, x1/x10 pull buttons
-- `game/src/ui/ShopScreen.js` — 6 product cards, Stripe redirect, gem refresh on resume
-- `game/src/api/client.js` — fetch wrapper: loginPlayer, getProfile, executePull, getPityState, startCheckout, openBillingPortal
+### Session 5 — AI Advisor + Content Pipeline OS
+- `yada-ai-advisor-report.docx` — 10 AI surfaces, 6 prioritized recommendations, 90-day roadmap
+- `characters/TEMPLATE.md` — SOUL.md blank starter
+- `characters/_world/WORLD-BIBLE.md` — stub (fill in worldbuilding session)
+- `ai/USER.md`, `ai/AGENTS.md`, `ai/shared-context/BRAND.md`, `ai/shared-context/FEEDBACK-LOG.md`
+- `ai/guides/image-generation.md`, `ai/guides/dialogue.md`
 
-### ✅ Competitive Analysis + P&L Forecast
-- File: `yada-competitive-analysis.docx`
-- Sections: G123/CTW profile ($90.4M FY2025 rev, +32% YoY), Plarium, HoYoverse, feature matrix, positioning gap analysis, 3-scenario P&L (Conservative/Base/Bull) across 3 years
-- Base case: Year 2 = $346K revenue / $158K net income; Year 3 = $1.11M / $598K net income
-- Note: P&L cost assumptions should be revised for frugal mode (AI art replaces artist line; no UA budget initially)
+### Session 4 — Phaser 3 Client + Competitive Analysis
+- `game/` — full Phaser 3 client scaffold (13 files, committed)
+- `yada-competitive-analysis.docx` — G123 profile, P&L 3-scenario model
+- `yada-ai-advisor.skill` — skill package
 
-### ✅ yada-ai-advisor Skill
-- Skill package: `yada-ai-advisor.skill` — install via Cowork skill manager
-- What it does: scans codebase, identifies AI surfaces, web-searches current tooling/pricing, produces prioritized .docx recommendations report
-- Invoke by saying: "run the AI advisor" or any AI tooling question
-- First report already generated: `yada-ai-advisor-report.docx`
-- Top recommendations: Cursor ($20/mo) → Claude Haiku for NPC text → fal.ai Flux for image gen (~$0.008/image) → Vercel AI SDK for content pipeline → Braintrust for eval
+### Sessions 1–3 — Server Scaffold
+- `server/` — Express + PlayFab + Stripe full integration
+- PlayFab Title ID: `AEE34`
 
 ---
 
 ## Open Threads
 
 **Active tasks (in priority order):**
-1. **Art direction & game concept session** — lock visual identity, genre tone, flagship IP (art style, character aesthetic, world/setting, combat feel, player fantasy). For each character conceived: copy `characters/TEMPLATE.md` → `characters/[Name]/SOUL.md` and fill in during session. Fill in `characters/_world/WORLD-BIBLE.md` and `ai/shared-context/BRAND.md` visual direction section.
-2. **Stripe dashboard** — create 6 products, copy price IDs into `server/.env` (`STRIPE_PRICE_*` vars), configure webhook endpoint URL, add `STRIPE_WEBHOOK_SECRET`
-3. **PlayFab economy setup** — create Economy catalog "Main" (upload `server/playfab/catalog-main.json`), enable player statistics (`pity_counter_*`, `total_pulls`, `player_level`)
-4. **fal.ai account** — set up as core art pipeline tool (not optional — this is the artist replacement). Test Flux image gen with character reference workflow.
+1. **Worldbuilding session** ← IN PROGRESS THIS SESSION
+   - Fill `characters/_world/WORLD-BIBLE.md`
+   - Create first character `characters/[Name]/SOUL.md`
+   - Draft core retention + gacha mechanics doc
+2. **fal.ai account activation** — add `FAL_KEY` to `server/.env`, run `npm install`
+3. **Stripe dashboard** — create 6 products, copy price IDs into `server/.env`, configure webhook
+4. **PlayFab economy setup** — upload `server/playfab/catalog-main.json`, enable player stats
 
 **Someday / deferred:**
 - Platform name (real brand name, not "Yada")
 - IP / trademark filing — after concept is locked
+- GDD — after worldbuilding session locks setting, characters, and core loop
 - GDPR / EU gacha compliance — Phase 2
 - Developer platform / third-party SDK — Year 2
 - Xsolla migration — revisit at ~$10K/mo or significant EU traffic
@@ -107,13 +92,15 @@ Implemented a three-layer markdown-file OS for all AI content generation, modele
 
 ## Context / Notes
 
-- **Workspace:** `C:\Users\rober\yada\` — GitHub remote is `https://github.com/dixob/yada`, push access configured (token in `.env`, credential store set, `safe.directory` added).
-- **GitHub push:** Works directly from Cowork — no manual steps needed.
-- **Skills available:** `yada-gdd`, `yada-ip-brief`, `yada-ai-advisor` — all accessible via skill invocations.
-- **Memory** is intact at `memory/` — glossary, project context, and company context are all current.
-- **Solo founder, no team.** All decisions are Robert's to make unilaterally.
-- **Stripe scaffold:** `server/` — full Node.js/Express integration. Test keys in `server/.env`. Needs: products in dashboard, price IDs, webhook secret.
-- **PlayFab scaffold:** `server/playfab/` — gacha, economy, player, client, routes, banner config, catalog JSON. Title ID: `AEE34`. Needs: catalog upload, player stats enabled.
-- **Phaser client:** `game/` — runs locally with `npm run dev` (port 8080). Proxies `/api` to Express :3000.
-- **Frugal mode decision (this session):** No hired artist — fal.ai/Flux for all art generation. No paid UA initially — organic/community growth. Revise P&L conservative scenario for planning; it's the most accurate model for current trajectory.
-- **Psychology of gacha hooks** — documented in session. Key mechanisms: variable ratio reinforcement, near-miss effect, dopamine anticipation loop, loss aversion/FOMO, pity as sunk cost, completion compulsion, social proof, escalating commitment. All compatible with Fair Play Pledge. This informs retention mechanics design in GDD.
+- **Workspace:** `C:\Users\rober\yada\` — GitHub remote is `https://github.com/dixob/yada`, push access configured
+- **GitHub push:** Works directly from Cowork — no manual steps needed
+- **Skills available:** `yada-gdd`, `yada-ip-brief`, `yada-ai-advisor` — all accessible via skill invocations
+- **Memory** intact at `memory/` — glossary, project context, and company context all current
+- **Solo founder, no team.** All decisions are Robert's to make unilaterally
+- **Frugal mode:** No hired artist (fal.ai/Flux), no paid UA (organic/community growth)
+- **Game format locked:** Card-expressed combat RPG. Think FGO mechanics + original western IP + contemporary supernatural setting
+- **Player role:** Commander/leader. Characters serve/challenge the player. Pull motivation = building the roster + earning character loyalty
+- **World direction:** Contemporary + supernatural. Real world with hidden supernatural layer. "Resonance" phenomenon activates latent powers in people under extreme emotional duress. Player runs a covert agency (faction) that recruits these "Resonants"
+- **First character archetypes identified:** Competent Loner (top-of-funnel converter), The Broken One (whale bait), Chaos Agent (virality/social). First character TBD — worldbuilding session in progress
+- **Psychology layer:** Variable ratio reinforcement, near-miss effect, pity as sunk cost, free-to-play permission structure, character design archetypes — all documented in session 6 context. Bake into GDD when written.
+- **P&L target:** Conservative scenario (~$5K/mo operating profit by Year 2) is the actual success target, not the floor

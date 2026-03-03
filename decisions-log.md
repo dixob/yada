@@ -113,3 +113,38 @@ Running log of all major strategic and product decisions. Append new entries at 
 - Platform should be designed to instrument AI experiments from day one (data capture, A/B frameworks, LLM evaluation hooks)
 
 **Status:** Final — core strategic frame for all subsequent decisions
+
+---
+
+### 2026-03-03 — Flagship Game Format: Card-Expressed Combat RPG
+
+**Decision:** The flagship game is a card-expressed combat RPG, not a full action or turn-based RPG.
+
+**Definition:** Characters are the collectible (pulled via gacha). Combat is expressed through cards — each character has a set of skill cards played in tactical turn-based encounters. This is the FGO/Granblue Fantasy model, not the Hearthstone/deck-building model. Players collect characters, not cards. Cards are the mechanical layer through which character abilities are expressed.
+
+**Rationale:** Analysis of G123's portfolio showed the most popular title (High School DxD) is a card game, but its success is primarily IP-driven. For an original IP without pre-existing audience, the card-expressed combat RPG format offers the best ROI:
+- Significantly lower build complexity vs. full RPG (4–6 months to MVP vs. 12–18 months solo)
+- Phaser 3 is a natural fit — 2D turn-based card combat is well within engine strengths
+- Character-driven emotional investment (the actual pull motivation) is preserved — players collect characters, not cards
+- FGO proves the model works at massive scale despite simple mechanics: narrative + character design carries the product
+- Gacha economy, pity system, and gem costs are format-agnostic — existing scaffold unchanged
+
+**Alternatives considered:**
+- Full action RPG (rejected — 18+ months solo, not browser-native at quality bar needed)
+- Turn-based RPG without card layer (viable but card mechanic adds visual clarity and tactical depth at low cost)
+- Pure deck-building card game (rejected — success requires strong card design as standalone hook; no original IP to compensate if card design is weak)
+- Keep full RPG direction (rejected — wrong ROI for solo founder frugal mode)
+
+**Status:** Final
+
+---
+
+### 2026-03-03 — Image Generation Pipeline: fal.ai + Flux
+
+**Decision:** fal.ai with Flux models is the official art generation pipeline for all character and banner art.
+
+**Rationale:** Replaces the hired artist line entirely. Flux.1 schnell at ~$0.002/image for iteration and Flux.1 dev at ~$0.02/image for final assets gives professional-quality output at near-zero cost. Integration complete: `server/falai/` module wired into Express, API key slot in `.env`, prompt workflow documented in `ai/guides/image-generation.md`.
+
+**Workflow:** schnell for exploration → lock seed on approval → dev for final → pro for hero/marketing assets. All rejections logged to `ai/feedback/` to build the correction moat over time.
+
+**Status:** Final
