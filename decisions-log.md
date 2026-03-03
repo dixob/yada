@@ -160,3 +160,35 @@ Running log of all major strategic and product decisions. Append new entries at 
 **Decision:** The world of Frequency and the characters within it are Kafka-esque in the full sense — the society is a bureaucratic nightmare (faceless institutions, incomprehensible authority, arbitrary rules) AND the characters are psychologically fractured by it (alienation, identity dissolution, becoming unrecognizable to themselves).
 **Rationale:** Differentiates Yada sharply from standard anime gacha. Creates a distinctive narrative voice and world that resonates with Western adult players.
 **Implications:** World-building update needed — introduce a governing institution with Kafkaesque properties. Revisit character arcs (Ash, Vera, others) through this lens. Update GDD lore section.
+
+---
+
+### 2026-03-03 — FREQUENCY v0.1 Vertical Slice: Full Battle System Built
+
+**Decision:** Build a complete playable vertical slice of FREQUENCY as the primary dev milestone, not a further design/GDD pass.
+
+**What was built:**
+- `game/src/systems/CharacterData.js` — Ash + Vera full card definitions (8 cards total), EFFECT_TYPES, TARGET constants, getPartyDeck() helper
+- `game/src/systems/EnemyData.js` — Meridian Agent (400 HP / 60 ATK), 3-action pattern (ATK→ATK→SPECIAL), "Asset Extraction" special (150% dmg to lowest HP + MARKED debuff), Stage ch01_meridian_contact
+- `game/src/systems/BattleManager.js` — full state machine (IDLE→DRAW→PLAYER_TURN→PARTY_ATTACK→ENEMY_TURN→TICK_EFFECTS→CHECK_END→VICTORY/DEFEAT), event-driven (no Phaser coupling), AP_PER_TURN=3
+- `game/src/systems/CardSystem.js` — merged party deck (8 cards), Fisher-Yates shuffle, draw hand of 5, auto-reshuffle from discard
+- `game/src/ui/CharacterSlot.js` — Phaser Container, HP bar tween, floating damage numbers, death overlay, effects display
+- `game/src/ui/CardHand.js` — 5-card hand, AP gating, hover lift, play animation
+- `game/src/ui/CombatLog.js` — scrolling type-coded log (12 entries max)
+- `game/src/scenes/BattleScene.js` — full battle scene wiring all systems and UI
+- `game/src/scenes/StageSelect.js` — mission briefing with staggered fade-in
+- `game/src/scenes/ResultScreen.js` — victory/defeat with flavor text + retry/menu
+- Modified: config.js, main.js, Game.js, Preloader.js
+
+**Ash cards:** OVERWATCH (1AP, buff), COLD READ (2AP, debuff), EXTRACT (1AP, heal), ENDGAME (3AP, nuke)
+**Vera cards:** SURVEILLANCE (1AP, multi-hit), PRESSURE (2AP, armor pierce), EXTRACT (1AP, heal), COLD CASE (3AP, stun)
+
+**Architecture decisions:**
+- BattleManager is pure JS (EventEmitter pattern, zero Phaser dependency) — testable in Node
+- BattleScene consumes BattleManager events only — clean separation
+- Card identity is per-character (Ash's EXTRACT ≠ Vera's EXTRACT) — enables character-specific effects later
+- Enemy action pattern is data-driven array, not hardcoded — easy to extend
+
+**Rationale:** A playable slice proves the core loop (draw → play cards → watch combat → win/lose) is fun before investing in content pipeline. Vertical slice = de-risked GDD assumptions.
+
+**Status:** Final — committed to GitHub as "feat: FREQUENCY v0.1 battle system vertical slice"

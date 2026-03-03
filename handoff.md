@@ -1,12 +1,12 @@
 # Handoff File
 
-_Last updated: 2026-03-03 (session 8)_
+_Last updated: 2026-03-03 (session 9)_
 
 ---
 
 ## Current Focus
 
-**GDD complete. Ash images generated.** GDD_FREQUENCY_202603.docx written (9 sections, 733 paragraphs). Ash portrait, splash art, and in-game sprite generated via fal.ai. fal.ai fully activated. Next: review Ash images → iterate if needed → write The Detective (Vera) SOUL.md.
+**FREQUENCY v0.1 vertical slice is complete and committed to GitHub.** Full battle system built in Phaser 3 — all 10 new files + 4 modifications. Playable: StageSelect → BattleScene → ResultScreen. Characters Ash + Vera are active. Enemy: Meridian Agent. Cards, AP system, effects, and combat log all wired. Dev server runs with `npm install && npm run dev` from `game/`. Next: run it, play it, assess feel.
 
 ---
 
@@ -27,7 +27,37 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 
 ---
 
-## Completed This Session (Session 8 — 2026-03-03)
+## Completed This Session (Session 9 — 2026-03-03)
+
+### ✅ FREQUENCY v0.1 — Full Battle System Vertical Slice
+
+**All files committed to GitHub** as `feat: FREQUENCY v0.1 battle system vertical slice`
+
+**New files:**
+- `game/src/systems/CharacterData.js` — Ash + Vera card definitions (8 cards), EFFECT_TYPES, TARGET constants
+- `game/src/systems/EnemyData.js` — Meridian Agent, stage ch01_meridian_contact, action pattern
+- `game/src/systems/BattleManager.js` — combat state machine, event emitter, full turn loop
+- `game/src/systems/CardSystem.js` — deck management, shuffle, draw, discard
+- `game/src/ui/CharacterSlot.js` — HP bar, damage numbers, effects display, death overlay
+- `game/src/ui/CardHand.js` — hand display, AP gating, hover, play animation
+- `game/src/ui/CombatLog.js` — scrolling type-coded combat log
+- `game/src/scenes/BattleScene.js` — full battle scene
+- `game/src/scenes/StageSelect.js` — mission briefing screen
+- `game/src/scenes/ResultScreen.js` — victory/defeat screen
+
+**Modified:**
+- `game/src/config.js` — STAGE_SELECT, BATTLE, RESULT scene keys added
+- `game/src/main.js` — three new scenes registered
+- `game/src/scenes/Game.js` — redirects to StageSelect
+- `game/src/scenes/Preloader.js` — loads 4 character assets (ash/vera sprite + portrait)
+
+**Character assets:** `game/public/assets/characters/` — ash-sprite.png, ash-portrait.png, vera-sprite.png, vera-portrait.png
+
+**To run:** `cd game && npm install && npm run dev` → open http://localhost:5173
+
+---
+
+## Completed Previous Session (Session 8 — 2026-03-03)
 
 ### ✅ GDD — FREQUENCY_202603.docx
 - `GDD_FREQUENCY_202603.docx` — complete Game Design Document (9 sections + appendix, 733 paragraphs, 36K)
@@ -103,11 +133,13 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 ## Open Threads
 
 **Active tasks (in priority order):**
-1. **Review Ash images** ← NEXT — open ash-portrait.png, ash-splash.png, ash-sprite.png in `characters/Ash/`. Approve or note what's off; iterate prompts via `gdd_work/gen_ash.mjs`
-2. **The Detective (Vera) SOUL.md** — first recruit character, working spec exists in GDD section 5
-3. **Stripe dashboard** — create 6 products, copy price IDs into `server/.env`, configure webhook
-4. **PlayFab economy setup** — upload `server/playfab/catalog-main.json`, enable player stats
-5. **Marcus, Sienna, Cael SOUL.md** — working specs in GDD character profiles; convert to full SOUL.md format
+1. **Play the vertical slice** ← NEXT — `cd game && npm install && npm run dev`. Play ch01_meridian_contact. Note: does it feel fun? Is AP economy right? Is the card hand readable? Does the enemy feel threatening?
+2. **Balance pass** — after playtesting, tune AP costs, enemy ATK, character HP, and card values based on feel
+3. **Vera images** — portrait + sprite via fal.ai (same pipeline as Ash). Vera visual: warm amber/rust tones, structured blazer, sharp
+4. **The Detective (Vera) SOUL.md** — working spec in GDD section 5; convert to full SOUL.md format
+5. **Stripe dashboard** — create 6 products, copy price IDs into `server/.env`, configure webhook
+6. **PlayFab economy setup** — upload `server/playfab/catalog-main.json`, enable player stats
+7. **Marcus, Sienna, Cael SOUL.md** — working specs in GDD; convert to full SOUL.md format
 
 **Someday / deferred:**
 - Platform name (real brand name, not "Yada")
