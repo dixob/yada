@@ -1,6 +1,6 @@
 # Handoff File
 
-_Last updated: 2026-03-03_
+_Last updated: 2026-03-03 (session 2)_
 
 ---
 
@@ -43,7 +43,8 @@ All decisions are logged in full in `decisions-log.md`. Summary of locked decisi
 
 ## Context / Notes
 
-- **Workspace location changed this session:** Project files are now at `C:\Users\rober\` (moved from the previous selected folder). GitHub remote is `https://github.com/dixob/yada` — all committed files are backed up there.
-- **Skill files** (`yada-gdd`, `yada-ip-brief`) live in the Cowork skills system, not as standalone files in the workspace — they're accessible via skill invocations as normal.
+- **Workspace:** `C:\Users\rober\yada\` — moved off OneDrive this session. GitHub remote is `https://github.com/dixob/yada`, push access configured (token in `.env`, credential store set, `safe.directory` added for this path).
+- **GitHub push:** Now works directly from Cowork — no manual steps needed going forward.
+- **Skill files** (`yada-gdd`, `yada-ip-brief`) live in the Cowork skills system — accessible via skill invocations as normal.
 - **Memory** is intact at `memory/` — glossary, project context, and company context are all current.
 - Solo founder, no team. All decisions are Robert's to make unilaterally.
