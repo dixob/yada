@@ -41,8 +41,14 @@ This structure means the player's question isn't "what do I want to do?" — it'
 Starting base: young woman, white silver long hair windswept, respirator mask covering lower face, structured white oversized jacket with dark harness straps, cool violet eyes visible above mask, urban contemporary, digital illustration, clean linework, cool palette, cinematic lighting, white background
 ```
 
+**Approved images (pass 1 — 2026-03-03):**
+- `ash-portrait.png` — character card, portrait_4_3 (768×1024), 30 steps
+- `ash-splash.png` — banner splash, landscape_4_3 (1024×768), 32 steps
+- `ash-sprite.png` — battle sprite, portrait_4_3 (768×1024), 28 steps
+- Model: `fal-ai/flux/dev`, guidance 3.5
+
 **Rejected prompt patterns:**
-- *(none yet — add after first image generation session)*
+- *(none yet — review images and add patterns that miss the mark)*
 
 ---
 
@@ -149,6 +155,6 @@ Do NOT: revealing clothing, wide smile, warm lighting, soft pastel tones, generi
 
 *File created: 2026-03-03*
 *Last updated: 2026-03-03*
-*Approved images: 0*
+*Approved images: 3 (pass 1 — portrait, splash, sprite)*
 *Rejected images: 0*
 *Approved dialogue lines: 0*

@@ -1,12 +1,12 @@
 # Handoff File
 
-_Last updated: 2026-03-03 (session 7)_
+_Last updated: 2026-03-03 (session 8)_
 
 ---
 
 ## Current Focus
 
-**Worldbuilding session complete.** WORLD-BIBLE.md written, protagonist SOUL.md (Ash) created, BRAND.md visual direction locked. Next: write The Detective (Vera) SOUL.md, then begin GDD.
+**GDD complete. Ash images generated.** GDD_FREQUENCY_202603.docx written (9 sections, 733 paragraphs). Ash portrait, splash art, and in-game sprite generated via fal.ai. fal.ai fully activated. Next: review Ash images → iterate if needed → write The Detective (Vera) SOUL.md.
 
 ---
 
@@ -27,7 +27,35 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 
 ---
 
-## Completed This Session (Session 7 — 2026-03-03)
+## Completed This Session (Session 8 — 2026-03-03)
+
+### ✅ GDD — FREQUENCY_202603.docx
+- `GDD_FREQUENCY_202603.docx` — complete Game Design Document (9 sections + appendix, 733 paragraphs, 36K)
+- Working title: **FREQUENCY** (needs trademark clearance before use)
+- Invented and locked: Pulse (premium currency), Echo (soft currency), Signal Points (stamina)
+- Three banner types: Rate-Up (21-day cycle) / Standard Pool (permanent) / Memory Fragment (Echo-only)
+- Pull rates confirmed: 1.5% SSR / 12.5% SR / 86% R, hard pity at 90, soft pity starts at 74, no 50/50 trap
+- Five character profiles: Ash (not pullable), Vera/SSR (The Detective), Marcus/SSR (The Medic/Broken One), Sienna/SR (Chaos Agent), Cael/SR (The Ghost)
+- Card combat: 15-card deck (5 chars × 3 cards), 5-card hand per round, player picks 3 to play, chain bonuses
+- Revenue split: 65% gacha / 20% Battle Pass / 12% cosmetics / 3% ads
+- KPIs: D1 40% / D7 20% / D30 10%; 5–10% F2P conversion; $0.08 ARPDAU; $5K+/mo profit Year 2
+- All invented content flagged green "INVENTED"; 7 open questions flagged red and collected in appendix
+
+### ✅ fal.ai Activation
+- `FAL_KEY` added to `server/.env`
+- `@fal-ai/client` installed in both `server/` and `gdd_work/`
+- Generation script: `gdd_work/gen_ash.mjs` — reusable for future image runs
+
+### ✅ Ash Image Pass 1 — Three Mockups
+- `characters/Ash/ash-portrait.png` — character card art (768×1024, portrait_4_3, 30 steps) — 301 KB
+- `characters/Ash/ash-splash.png` — gacha banner splash (1024×768, landscape_4_3, 32 steps) — 238 KB
+- `characters/Ash/ash-sprite.png` — in-game battle sprite (768×1024, portrait_4_3, 28 steps) — 111 KB
+- Model: `fal-ai/flux/dev`, guidance 3.5. SOUL.md updated with generation notes.
+- **Pending:** Robert reviews images — iterate on any that miss the brief
+
+---
+
+## Completed Previous Session (Session 7 — 2026-03-03)
 
 ### ✅ WORLD-BIBLE.md — Full rewrite
 - `characters/_world/WORLD-BIBLE.md` — setting, tone, The Resonance (0.003% activation, 41-year timeline, hair marker, emotional cost), four factions (The Index / Meridian / The Silence / The Unbound), visual language (desaturated urban + Resonance wrongness + fashion + silhouette rules), lore anchors, generation rules
@@ -45,7 +73,7 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 
 ---
 
-## Completed Previous Sessions (Sessions 1–6)
+## Completed Previous Sessions (Sessions 1–6 — pre-session 7)
 
 ### Session 6 — fal.ai Integration + Format Decision + Worldbuilding Start
 - `server/falai/client.js`, `server/falai/routes.js` — fal.ai server integration
@@ -75,11 +103,11 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 ## Open Threads
 
 **Active tasks (in priority order):**
-1. **The Detective (Vera) SOUL.md** ← NEXT — first recruit character, relationship with Ash established in WORLD-BIBLE
-2. **GDD** — ready to write after Vera is complete; worldbuilding foundation is now solid enough
-3. **fal.ai account activation** — add `FAL_KEY` to `server/.env`, run `npm install` in `server/`
-4. **Stripe dashboard** — create 6 products, copy price IDs into `server/.env`, configure webhook
-5. **PlayFab economy setup** — upload `server/playfab/catalog-main.json`, enable player stats
+1. **Review Ash images** ← NEXT — open ash-portrait.png, ash-splash.png, ash-sprite.png in `characters/Ash/`. Approve or note what's off; iterate prompts via `gdd_work/gen_ash.mjs`
+2. **The Detective (Vera) SOUL.md** — first recruit character, working spec exists in GDD section 5
+3. **Stripe dashboard** — create 6 products, copy price IDs into `server/.env`, configure webhook
+4. **PlayFab economy setup** — upload `server/playfab/catalog-main.json`, enable player stats
+5. **Marcus, Sienna, Cael SOUL.md** — working specs in GDD character profiles; convert to full SOUL.md format
 
 **Someday / deferred:**
 - Platform name (real brand name, not "Yada")
