@@ -1,6 +1,6 @@
 # Handoff File
 
-_Last updated: 2026-03-03 (session 2)_
+_Last updated: 2026-03-03 (session 3)_
 
 ---
 
@@ -30,7 +30,7 @@ All decisions are logged in full in `decisions-log.md`. Summary of locked decisi
 1. Art direction & game concept session — lock visual identity, genre tone, flagship concept (art style, character aesthetic, world/setting, combat feel, player fantasy)
 2. Set up Phaser 3 dev environment — scaffold project, confirm local tooling
 3. Create PlayFab account + new title — economy/gacha config, confirm free tier
-4. Create Stripe account — connect to business entity, test mode, digital goods config
+4. ~~Create Stripe account~~ → **DONE (partial)** — integration scaffold built at `server/`. Remaining: create products in dashboard, fill in `STRIPE_PRICE_*` env vars, configure webhook endpoint URL, get `STRIPE_WEBHOOK_SECRET`
 
 **Someday / deferred:**
 - Platform name (real brand name, not "Yada")
@@ -48,3 +48,4 @@ All decisions are logged in full in `decisions-log.md`. Summary of locked decisi
 - **Skill files** (`yada-gdd`, `yada-ip-brief`) live in the Cowork skills system — accessible via skill invocations as normal.
 - **Memory** is intact at `memory/` — glossary, project context, and company context are all current.
 - Solo founder, no team. All decisions are Robert's to make unilaterally.
+- **Stripe scaffold:** `server/` directory contains full Node.js/Express integration — config, checkout, webhooks, PlayFab bridge. Test keys are in `server/.env`. Still needs: products created in dashboard, price IDs filled in, webhook secret added.
