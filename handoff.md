@@ -1,6 +1,6 @@
 # Handoff File
 
-_Last updated: 2026-03-03 (session 4)_
+_Last updated: 2026-03-03 (session 5)_
 
 ---
 
@@ -23,6 +23,37 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 - **IP/trademark:** Deferred until flagship concept is locked in art direction session
 - **Art approach:** AI-generated (fal.ai / Flux) — no hired artist at this stage
 - **Growth approach:** Organic / community-led — no paid UA until proven retention
+
+---
+
+## Completed This Session (Session 5 — 2026-03-03)
+
+### ✅ AI Advisor Report
+- File: `yada-ai-advisor-report.docx`
+- All 10 AI surfaces confirmed greenfield (no existing integrations)
+- Top priority: fal.ai Flux image gen (score 5.00) — `GachaScreen.js` has a literal `[Banner Art]` placeholder, making this the most urgent item
+- 6 prioritized recommendations with pricing verified: fal.ai Flux.1 [schnell] $0.003/MP, Cursor Pro $20/mo, Claude Haiku $1/$5 per M tokens, Vercel AI SDK free, Braintrust free tier
+- 90-day roadmap included: Month 1 = Cursor + fal.ai; Month 2 = Haiku dialogue; Month 3 = eval pipeline
+
+### ✅ AI Content Pipeline Operating System (OpenClaw-inspired)
+Implemented a three-layer markdown-file OS for all AI content generation, modeled on the OpenClaw agent architecture. The core insight: the model doesn't get smarter, the files around it do. Every correction logged once prevents the same correction forever — that's the compounding moat.
+
+**New directories:**
+- `characters/` — Character identity files
+  - `characters/TEMPLATE.md` — SOUL.md blank starter (copy per new character in art session). Includes: Core Identity, Visual Identity (with fal.ai Flux seed slot), Voice & Dialogue (with "What they'd NEVER say" guardrails), Role in World, Relationships, Generation Seeds.
+  - `characters/_world/WORLD-BIBLE.md` — World lore foundation (stub, fill in at art direction session)
+- `ai/` — Pipeline operating system
+  - `ai/USER.md` — Robert's preferences + Yada brand voice (load before every content session)
+  - `ai/AGENTS.md` — Session startup rules: explicit load order per content type (banner art, dialogue, lore, marketing copy)
+  - `ai/shared-context/BRAND.md` — Yada identity, fair play pledge, visual direction (visual section pending art session)
+  - `ai/shared-context/FEEDBACK-LOG.md` — Cross-content correction moat (starts empty, grows with every correction)
+  - `ai/feedback/` — Dated rejection logs (format: `YYYY-MM-DD.md`)
+  - `ai/guides/image-generation.md` — fal.ai Flux workflow: model selection, prompt construction, session flow, rejection logging
+  - `ai/guides/dialogue.md` — Claude Haiku workflow: prompt construction, dialogue types, quality checklist
+
+**How to use in the art direction session:** For every character conceived, copy `characters/TEMPLATE.md` → `characters/[CharacterName]/SOUL.md` and fill in during the session. The Flux seed section stays blank until first images are approved.
+
+**The compounding habit:** When generated content is rejected, log one line in `ai/feedback/YYYY-MM-DD.md`. After 3+ recurrences, promote to `ai/shared-context/FEEDBACK-LOG.md`. That correction then applies to all future generation automatically.
 
 ---
 
@@ -58,7 +89,7 @@ All decisions logged in full in `decisions-log.md`. Summary of locked decisions:
 ## Open Threads
 
 **Active tasks (in priority order):**
-1. **Art direction & game concept session** — lock visual identity, genre tone, flagship IP (art style, character aesthetic, world/setting, combat feel, player fantasy). AI art pipeline means we can iterate fast in session.
+1. **Art direction & game concept session** — lock visual identity, genre tone, flagship IP (art style, character aesthetic, world/setting, combat feel, player fantasy). For each character conceived: copy `characters/TEMPLATE.md` → `characters/[Name]/SOUL.md` and fill in during session. Fill in `characters/_world/WORLD-BIBLE.md` and `ai/shared-context/BRAND.md` visual direction section.
 2. **Stripe dashboard** — create 6 products, copy price IDs into `server/.env` (`STRIPE_PRICE_*` vars), configure webhook endpoint URL, add `STRIPE_WEBHOOK_SECRET`
 3. **PlayFab economy setup** — create Economy catalog "Main" (upload `server/playfab/catalog-main.json`), enable player statistics (`pity_counter_*`, `total_pulls`, `player_level`)
 4. **fal.ai account** — set up as core art pipeline tool (not optional — this is the artist replacement). Test Flux image gen with character reference workflow.
