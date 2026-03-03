@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREQUENCY — Battle Sprite Demo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0e1f33;
+      --accent:  #4b78b0;
+      --violet:  #6b4fa0;
+      --violet-l:#9d7fd4;
+      --text-dim:#7a9ab8;
+      --white:   #eef2f7;
+      --border:  rgba(255,255,255,0.10);
+      --sp:      #4a9eca;
+      --red:     #c0392b;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #060c16;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+      color: var(--white);
+      gap: 28px;
+    }
+
+    h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.25em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ─── SCREENS ROW ─────────────────────────────── */
+    .screens {
+      display: flex; gap: 32px; align-items: flex-end;
+    }
+
+    /* ─── SINGLE SCREEN ─────────────────────────────── */
+    .frame {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .frame-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.25);
+      text-transform: uppercase;
+    }
+
+    /* ─── BATTLE WINDOW ─────────────────────────────── */
+    .battle {
+      position: relative;
+      background: linear-gradient(180deg, #0a1624 0%, #0d1e35 50%, #0e1620 100%);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* City bg */
+    .battle::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='380'%3E%3Crect x='0' y='230' width='28' height='150' fill='%230a1520'/%3E%3Crect x='20' y='210' width='40' height='170' fill='%230c1a2a'/%3E%3Crect x='55' y='245' width='30' height='135' fill='%230a1520'/%3E%3Crect x='75' y='200' width='50' height='180' fill='%230b1826'/%3E%3Crect x='120' y='255' width='25' height='125' fill='%230a1520'/%3E%3Crect x='430' y='215' width='45' height='165' fill='%230b1826'/%3E%3Crect x='465' y='195' width='60' height='185' fill='%230c1a2a'/%3E%3Crect x='520' y='235' width='40' height='145' fill='%230a1520'/%3E%3Crect x='555' y='250' width='45' height='130' fill='%230b1826'/%3E%3C/svg%3E");
+      background-size: cover;
+      opacity: 0.85;
+    }
+    /* ambient violet glow under player */
+    .battle::after {
+      content: '';
+      position: absolute; bottom: 0; left: 28%;
+      width: 200px; height: 60px;
+      background: radial-gradient(ellipse, rgba(107,79,160,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ─── ENEMY BLOCK ─────────────────────────────── */
+    .enemy-zone {
+      position: absolute; right: 0; top: 0; bottom: 60px;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .enemy-sil {
+      background: linear-gradient(180deg, rgba(160,30,30,0.07) 0%, rgba(120,15,15,0.14) 100%);
+      border: 1px solid rgba(160,30,30,0.12);
+      clip-path: polygon(15% 0%, 85% 0%, 100% 10%, 100% 90%, 85% 100%, 15% 100%, 0% 90%, 0% 10%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .enemy-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700; letter-spacing: 0.1em;
+      color: rgba(200,80,80,0.4);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+
+    /* ─── PLAYER SPRITE ─────────────────────────────── */
+    .player-zone {
+      position: absolute; left: 0; bottom: 56px;
+      display: flex; align-items: flex-end;
+    }
+
+    .sprite-img {
+      object-fit: contain;
+      object-position: top;
+      filter: drop-shadow(0 0 14px rgba(107,79,160,0.30))
+              drop-shadow(0 12px 24px rgba(0,0,0,0.55));
+    }
+
+    /* ── IDLE ANIMATION — subtle float + slight scale breathe ── */
+    @keyframes idle-float {
+      0%   { transform: translateY(0px) scaleY(1.000); }
+      30%  { transform: translateY(-3px) scaleY(1.002); }
+      60%  { transform: translateY(-5px) scaleY(1.004); }
+      80%  { transform: translateY(-3px) scaleY(1.002); }
+      100% { transform: translateY(0px) scaleY(1.000); }
+    }
+    /* Slightly tighter version for smaller display */
+    @keyframes idle-float-sm {
+      0%   { transform: translateY(0px); }
+      40%  { transform: translateY(-2px); }
+      70%  { transform: translateY(-3px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .sprite-img.animated {
+      transform-origin: bottom center;
+      animation: idle-float 3.2s ease-in-out infinite;
+    }
+    .sprite-img.animated-sm {
+      transform-origin: bottom center;
+      animation: idle-float-sm 3.2s ease-in-out infinite;
+    }
+
+    /* Resonance pool shimmer under the sprite */
+    .resonance-pool {
+      position: absolute;
+      left: 0; bottom: 54px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(107,79,160,0.3) 0%, transparent 70%);
+    }
+    @keyframes pool-pulse {
+      0%, 100% { opacity: 0.4; transform: scaleX(1); }
+      50%       { opacity: 0.7; transform: scaleX(1.08); }
+    }
+    .resonance-pool { animation: pool-pulse 3.2s ease-in-out infinite; }
+
+    /* ─── HP / SP BARS (in-window) ─────────────────────────────── */
+    .bars-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0 8px 6px;
+      background: linear-gradient(0deg, rgba(8,14,24,0.92) 0%, transparent 100%);
+    }
+    .bar-row {
+      display: flex; align-items: center; gap: 5px;
+      margin-bottom: 3px;
+    }
+    .bar-lbl {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+    .bar-track {
+      flex: 1; background: rgba(255,255,255,0.07);
+      border-radius: 2px; overflow: hidden;
+    }
+    .bar-fill { height: 100%; border-radius: 2px; }
+    .bar-fill.hp  { background: linear-gradient(90deg, #1a6a3a, #1fab64); width: 78%; }
+    .bar-fill.sp  { background: linear-gradient(90deg, #1a5580, #2a9ed4); width: 55%; }
+    .bar-fill.enm { background: linear-gradient(90deg, #6a1010, #c0392b); width: 42%; }
+
+    /* ─── SIZE VARIANTS ─────────────────────────────── */
+
+    /* LARGE — 640×400 */
+    .battle.lg { width: 640px; height: 400px; }
+    .battle.lg .player-zone  { width: 210px; }
+    .battle.lg .sprite-img   { height: 270px; width: 210px; }
+    .battle.lg .resonance-pool { width: 160px; height: 22px; left: 25px; }
+    .battle.lg .enemy-zone   { width: 160px; }
+    .battle.lg .enemy-sil    { width: 110px; height: 190px; }
+    .battle.lg .enemy-text   { font-size: 10px; }
+    .battle.lg .bars-overlay { height: 56px; padding: 0 10px 7px; }
+    .battle.lg .bar-row      { margin-bottom: 4px; }
+    .battle.lg .bar-lbl      { font-size: 9px; width: 22px; }
+    .battle.lg .bar-track    { height: 5px; }
+
+    /* MEDIUM — 420×260 */
+    .battle.md { width: 420px; height: 260px; }
+    .battle.md .player-zone  { width: 135px; }
+    .battle.md .sprite-img   { height: 176px; width: 135px; }
+    .battle.md .resonance-pool { width: 100px; height: 14px; left: 17px; }
+    .battle.md .enemy-zone   { width: 110px; }
+    .battle.md .enemy-sil    { width: 76px; height: 124px; }
+    .battle.md .enemy-text   { font-size: 7px; }
+    .battle.md .bars-overlay { height: 40px; padding: 0 7px 5px; }
+    .battle.md .bar-row      { margin-bottom: 3px; }
+    .battle.md .bar-lbl      { font-size: 7px; width: 16px; }
+    .battle.md .bar-track    { height: 4px; }
+
+    /* SMALL — 280×175 */
+    .battle.sm { width: 280px; height: 175px; }
+    .battle.sm .player-zone  { width: 90px; }
+    .battle.sm .sprite-img   { height: 118px; width: 90px; }
+    .battle.sm .resonance-pool { width: 66px; height: 10px; left: 12px; }
+    .battle.sm .enemy-zone   { width: 75px; }
+    .battle.sm .enemy-sil    { width: 52px; height: 84px; }
+    .battle.sm .enemy-text   { font-size: 5px; }
+    .battle.sm .bars-overlay { height: 28px; padding: 0 5px 4px; }
+    .battle.sm .bar-row      { margin-bottom: 2px; }
+    .battle.sm .bar-lbl      { font-size: 6px; width: 12px; }
+    .battle.sm .bar-track    { height: 3px; }
+
+    /* ─── ANNOTATION PILL ─────────────────────────────── */
+    .pill {
+      display: inline-block;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 8px; font-weight: 700;
+      letter-spacing: 0.18em;
+      color: rgba(107,79,160,0.7);
+      border: 1px solid rgba(107,79,160,0.25);
+      border-radius: 2px;
+      padding: 2px 8px;
+      text-transform: uppercase;
+    }
+
+    /* ─── FOOTNOTE ─────────────────────────────── */
+    .footnote {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-align: center;
+      line-height: 1.6;
+      max-width: 680px;
+    }
+    .footnote strong { color: rgba(157,127,212,0.9); font-weight: 600; }
+
+    /* ─── SCALE NOTE ─────────────────────────────── */
+    .mockup-tag {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.12);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ─── TOGGLE BAR ─────────────────────────────── */
+    .toggle-bar {
+      display: flex; gap: 8px;
+    }
+    .toggle-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 2px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+    .toggle-btn.active {
+      border-color: rgba(107,79,160,0.6);
+      color: var(--violet-l);
+      background: rgba(107,79,160,0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Battle Sprite — Illustrated 2D · Idle Animation Demo</h2>
+
+  <div class="screens">
+
+    <!-- LARGE -->
+    <div class="frame">
+      <div class="battle lg">
+        <div class="resonance-pool"></div>
+        <div class="player-zone">
+          <img class="sprite-img animated" src="../characters/Ash/ash-sprite.png" alt="Ash" />
+        </div>
+        <div class="enemy-zone">
+          <div class="enemy-sil"><div class="enemy-text">Silence</div></div>
+        </div>
+        <div class="bars-overlay">
+          <div class="bar-row">
+            <div class="bar-lbl">HP</div>
+            <div class="bar-track"><div class="bar-fill hp"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-lbl">SP</div>
+            <div class="bar-track"><div class="bar-fill sp"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-label">Desktop browser  ·  ~1024px wide screen</div>
+    </div>
+
+    <!-- MEDIUM -->
+    <div class="frame">
+      <div class="battle md">
+        <div class="resonance-pool"></div>
+        <div class="player-zone">
+          <img class="sprite-img animated-sm" src="../characters/Ash/ash-sprite.png" alt="Ash" style="animation-delay:0.4s"/>
+        </div>
+        <div class="enemy-zone">
+          <div class="enemy-sil"><div class="enemy-text">Silence</div></div>
+        </div>
+        <div class="bars-overlay">
+          <div class="bar-row">
+            <div class="bar-lbl">HP</div>
+            <div class="bar-track"><div class="bar-fill hp"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-lbl">SP</div>
+            <div class="bar-track"><div class="bar-fill sp"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-label">Tablet  ·  ~768px wide screen</div>
+    </div>
+
+    <!-- SMALL -->
+    <div class="frame">
+      <div class="battle sm">
+        <div class="resonance-pool"></div>
+        <div class="player-zone">
+          <img class="sprite-img animated-sm" src="../characters/Ash/ash-sprite.png" alt="Ash" style="animation-delay:0.8s"/>
+        </div>
+        <div class="enemy-zone">
+          <div class="enemy-sil"><div class="enemy-text">Silence</div></div>
+        </div>
+        <div class="bars-overlay">
+          <div class="bar-row">
+            <div class="bar-lbl">HP</div>
+            <div class="bar-track"><div class="bar-fill hp"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-lbl">SP</div>
+            <div class="bar-track"><div class="bar-fill sp"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-label">Mobile browser  ·  ~390px wide screen</div>
+    </div>
+
+  </div><!-- /screens -->
+
+  <div class="footnote">
+    <strong>No pixel art.</strong> The illustrated sprite scales clean at every browser size.<br>
+    Idle animation is pure CSS — a 3.2s float + subtle breathe loop. No extra assets required.<br><br>
+    Production upgrade path: <strong>Live2D or Spine</strong> for full bone animation (blink, hair physics, attack sequence).<br>
+    MVP ships with the CSS idle. Upgrade when revenue supports it.
+  </div>
+
+  <div class="mockup-tag">battle sprite demo · mockup · open in browser to see animation</div>
+
+</body>
+</html>

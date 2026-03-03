@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FREQUENCY — Character Cards</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ash:    #7B5CF0;
+    --vera:   #D4820A;
+    --marcus: #A0293E;
+    --sienna: #E0266E;
+    --cael:   #2E7FC1;
+  }
+
+  body {
+    background: #050508;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── Background grid ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(100,80,220,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100,80,220,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  .header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .header-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(160,140,255,0.5);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  .header-title span {
+    color: #7B5CF0;
+  }
+  .header-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* ── Card row ── */
+  .card-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  /* ── Single card ── */
+  .card {
+    position: relative;
+    width: 240px;
+    height: 360px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease;
+    flex-shrink: 0;
+  }
+  .card:hover {
+    transform: translateY(-16px) scale(1.04);
+  }
+
+  /* Featured (SSR) cards slightly taller */
+  .card.ssr { height: 380px; }
+  .card.ssr:hover { transform: translateY(-20px) scale(1.05); }
+
+  /* Glow ring on hover */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, var(--c), transparent 60%, var(--c));
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .card:hover::after { opacity: 1; }
+
+  /* ── Portrait ── */
+  .card-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 12px;
+  }
+
+  /* ── Overlays ── */
+  /* Subtle vignette */
+  .card-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, transparent 40%, rgba(0,0,0,0.55) 100%);
+    border-radius: 12px;
+    z-index: 2;
+  }
+
+  /* Bottom gradient panel */
+  .card-panel {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 130px;
+    background: linear-gradient(to top, rgba(4,4,12,0.97) 0%, rgba(4,4,12,0.85) 55%, transparent 100%);
+    border-radius: 0 0 12px 12px;
+    z-index: 3;
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  /* Border */
+  .card-border {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    border: 1.5px solid rgba(255,255,255,0.07);
+    z-index: 4;
+    pointer-events: none;
+    transition: border-color 0.35s ease;
+  }
+  .card:hover .card-border {
+    border-color: var(--c);
+    box-shadow: inset 0 0 0 1px var(--c), 0 0 24px -4px var(--c);
+  }
+
+  /* Scanline effect */
+  .card-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.07) 3px,
+      rgba(0,0,0,0.07) 4px
+    );
+    border-radius: 12px;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* Top-left: faction badge */
+  .card-faction {
+    position: absolute;
+    top: 12px; left: 12px;
+    z-index: 6;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 3px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+
+  /* Top-right: rarity badge */
+  .card-rarity {
+    position: absolute;
+    top: 10px; right: 12px;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+  }
+  .rarity-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .rarity-label.ssr {
+    background: linear-gradient(135deg, #c9930a, #f5d060);
+    color: #1a0f00;
+  }
+  .rarity-label.sr {
+    background: linear-gradient(135deg, #6030c0, #a070f0);
+    color: #fff;
+  }
+  .rarity-stars {
+    display: flex;
+    gap: 2px;
+  }
+  .star {
+    width: 10px; height: 10px;
+    fill: #f5c518;
+    filter: drop-shadow(0 0 3px #f5c518);
+  }
+  .star.dim { fill: rgba(255,255,255,0.15); filter: none; }
+
+  /* Bottom panel content */
+  .card-role {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--c);
+    opacity: 0.85;
+  }
+  .card-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fff;
+    line-height: 1;
+    text-shadow: 0 0 20px var(--c);
+    text-transform: uppercase;
+  }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+  }
+  .meta-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 2px 5px;
+    border-radius: 2px;
+  }
+  .meta-dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--c);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  /* Stat bar row */
+  .card-stats {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+  }
+  .stat-bar-track {
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 1px;
+    background: var(--c);
+    opacity: 0.7;
+    transition: width 0.6s ease;
+  }
+
+  /* Holographic shimmer on hover */
+  .card-shimmer {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(255,255,255,0.04) 48%,
+      rgba(255,255,255,0.09) 50%,
+      rgba(255,255,255,0.04) 52%,
+      transparent 70%
+    );
+    background-size: 200% 200%;
+    opacity: 0;
+    z-index: 6;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    animation: shimmer-move 3s infinite linear paused;
+  }
+  .card:hover .card-shimmer {
+    opacity: 1;
+    animation-play-state: running;
+  }
+  @keyframes shimmer-move {
+    0%   { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ── Legend ── */
+  .legend {
+    position: relative;
+    z-index: 1;
+    margin-top: 48px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── New label ── */
+  .card-new {
+    position: absolute;
+    top: 36px; left: 12px;
+    z-index: 6;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #0a1a0a;
+    background: #39e070;
+    padding: 2px 5px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">// INDEX BUREAU — PERSONNEL REGISTRY //</div>
+  <div class="header-title">FREQ<span>UENCY</span></div>
+  <div class="header-sub">Operative Clearance Level: Alpha · Active Roster</div>
+</div>
+
+<div class="card-row">
+
+  <!-- ASH — SSR -->
+  <div class="card ssr" style="--c: var(--ash)">
+    <img class="card-art" src="../characters/Ash/ash-portrait-v3.png" alt="Ash">
+    <div class="card-vignette"></div>
+    <div class="card-scanlines"></div>
+    <div class="card-shimmer"></div>
+    <div class="card-faction">INDEX</div>
+    <div class="card-rarity">
+      <div class="rarity-label ssr">SSR</div>
+      <div class="rarity-stars">
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+      </div>
+    </div>
+    <div class="card-border"></div>
+    <div class="card-panel">
+      <div class="card-role">The Operative</div>
+      <div class="card-name">Ash</div>
+      <div class="card-meta">
+        <div class="meta-tag">Signal</div>
+        <div class="meta-dot"></div>
+        <div class="meta-tag">Offense</div>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-label">ATK</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:88%"></div></div></div>
+        <div class="stat"><div class="stat-label">DEF</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:52%"></div></div></div>
+        <div class="stat"><div class="stat-label">SPD</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:95%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERA — SSR -->
+  <div class="card ssr" style="--c: var(--vera)">
+    <img class="card-art" src="../characters/Vera/vera-portrait-v3.png" alt="Vera">
+    <div class="card-vignette"></div>
+    <div class="card-scanlines"></div>
+    <div class="card-shimmer"></div>
+    <div class="card-faction">INDEX</div>
+    <div class="card-rarity">
+      <div class="rarity-label ssr">SSR</div>
+      <div class="rarity-stars">
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+      </div>
+    </div>
+    <div class="card-border"></div>
+    <div class="card-panel">
+      <div class="card-role">The Detective</div>
+      <div class="card-name">Vera</div>
+      <div class="card-meta">
+        <div class="meta-tag">Cipher</div>
+        <div class="meta-dot"></div>
+        <div class="meta-tag">Control</div>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-label">ATK</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:70%"></div></div></div>
+        <div class="stat"><div class="stat-label">DEF</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:61%"></div></div></div>
+        <div class="stat"><div class="stat-label">SPD</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:78%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARCUS — SSR -->
+  <div class="card ssr" style="--c: var(--marcus)">
+    <img class="card-art" src="../characters/Marcus/marcus-portrait.png" alt="Marcus">
+    <div class="card-vignette"></div>
+    <div class="card-scanlines"></div>
+    <div class="card-shimmer"></div>
+    <div class="card-faction">INDEX</div>
+    <div class="card-rarity">
+      <div class="rarity-label ssr">SSR</div>
+      <div class="rarity-stars">
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+      </div>
+    </div>
+    <div class="card-border"></div>
+    <div class="card-panel">
+      <div class="card-role">The Medic</div>
+      <div class="card-name">Marcus</div>
+      <div class="card-meta">
+        <div class="meta-tag">Warden</div>
+        <div class="meta-dot"></div>
+        <div class="meta-tag">Support</div>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-label">ATK</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:55%"></div></div></div>
+        <div class="stat"><div class="stat-label">DEF</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:80%"></div></div></div>
+        <div class="stat"><div class="stat-label">SPD</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:60%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIENNA — SR -->
+  <div class="card" style="--c: var(--sienna)">
+    <img class="card-art" src="../characters/Sienna/sienna-portrait.png" alt="Sienna">
+    <div class="card-vignette"></div>
+    <div class="card-scanlines"></div>
+    <div class="card-shimmer"></div>
+    <div class="card-faction">INDEX</div>
+    <div class="card-rarity">
+      <div class="rarity-label sr">SR</div>
+      <div class="rarity-stars">
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star dim" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+      </div>
+    </div>
+    <div class="card-border"></div>
+    <div class="card-panel">
+      <div class="card-role">The Artist</div>
+      <div class="card-name">Sienna</div>
+      <div class="card-meta">
+        <div class="meta-tag">Noise</div>
+        <div class="meta-dot"></div>
+        <div class="meta-tag">Wildcard</div>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-label">ATK</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:78%"></div></div></div>
+        <div class="stat"><div class="stat-label">DEF</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:40%"></div></div></div>
+        <div class="stat"><div class="stat-label">SPD</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:88%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAEL — SR -->
+  <div class="card" style="--c: var(--cael)">
+    <img class="card-art" src="../characters/Cael/cael-portrait.png" alt="Cael">
+    <div class="card-vignette"></div>
+    <div class="card-scanlines"></div>
+    <div class="card-shimmer"></div>
+    <div class="card-faction">INDEX</div>
+    <div class="card-rarity">
+      <div class="rarity-label sr">SR</div>
+      <div class="rarity-stars">
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+        <svg class="star dim" viewBox="0 0 12 12"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.8,12 6,9.2 2.2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+      </div>
+    </div>
+    <div class="card-border"></div>
+    <div class="card-panel">
+      <div class="card-role">The Ghost</div>
+      <div class="card-name">Cael</div>
+      <div class="card-meta">
+        <div class="meta-tag">Null</div>
+        <div class="meta-dot"></div>
+        <div class="meta-tag">Subtraction</div>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-label">ATK</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:65%"></div></div></div>
+        <div class="stat"><div class="stat-label">DEF</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:55%"></div></div></div>
+        <div class="stat"><div class="stat-label">SPD</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:100%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#f5c518"></div>SSR — 0.6% base rate</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a070f0"></div>SR — 5.1% base rate</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.2)"></div>Pity at 90 pulls</div>
+</div>
+
+</body>
+</html>

@@ -15,13 +15,17 @@ export const GAME_HEIGHT = 720;
 // Scene keys — use these constants everywhere instead of raw strings
 // ---------------------------------------------------------------------------
 export const SCENES = {
-  BOOT: 'Boot',
-  PRELOADER: 'Preloader',
-  MAIN_MENU: 'MainMenu',
-  GAME: 'Game',
-  GACHA: 'GachaScreen',
-  SHOP: 'ShopScreen',
-  HUD: 'HUD',
+  BOOT:         'Boot',
+  PRELOADER:    'Preloader',
+  MAIN_MENU:    'MainMenu',
+  GAME:         'Game',
+  GACHA:        'GachaScreen',
+  SHOP:         'ShopScreen',
+  HUD:          'HUD',
+  // ── Battle flow (v0.1) ─────────────────────────────────────────────────
+  STAGE_SELECT: 'StageSelect',
+  BATTLE:       'BattleScene',
+  RESULT:       'ResultScreen',
 };
 
 // ---------------------------------------------------------------------------

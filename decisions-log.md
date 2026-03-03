@@ -148,3 +148,15 @@ Running log of all major strategic and product decisions. Append new entries at 
 **Workflow:** schnell for exploration → lock seed on approval → dev for final → pro for hero/marketing assets. All rejections logged to `ai/feedback/` to build the correction moat over time.
 
 **Status:** Final
+
+---
+## 2026-03-03 — Battle Art Direction: Illustrated Sprites + VFX Layer
+**Decision:** Lock illustrated 2D sprites (not pixel art) as the battle art direction. Expressiveness achieved through CSS/JS VFX layer (screen flash, shockwave, damage numbers, card animations) around a static illustrated sprite.
+**Rationale:** Brand-consistent with BRAND.md, no extra asset cost, proven expressive in ash-battle-live.html demo, faster to ship at launch.
+**Implications:** Live2D/Spine bone animation deferred to Year 2 upgrade path.
+
+---
+## 2026-03-03 — Narrative Direction: Kafka-esque (Both — Dark & Systemic)
+**Decision:** The world of Frequency and the characters within it are Kafka-esque in the full sense — the society is a bureaucratic nightmare (faceless institutions, incomprehensible authority, arbitrary rules) AND the characters are psychologically fractured by it (alienation, identity dissolution, becoming unrecognizable to themselves).
+**Rationale:** Differentiates Yada sharply from standard anime gacha. Creates a distinctive narrative voice and world that resonates with Western adult players.
+**Implications:** World-building update needed — introduce a governing institution with Kafkaesque properties. Revisit character arcs (Ash, Vera, others) through this lens. Update GDD lore section.

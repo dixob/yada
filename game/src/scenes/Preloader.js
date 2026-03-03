@@ -26,12 +26,16 @@ export default class Preloader extends Phaser.Scene {
     // this.load.image('gem-icon', 'assets/ui/gem-icon.png');
 
     // -----------------------------------------------------------------------
-    // Characters (add after art direction session locks the IP)
+    // Characters — v0.1 Battle assets
+    // Sprites used in BattleScene, portraits used in StageSelect
     // -----------------------------------------------------------------------
-    // this.load.image('char-portrait-001', 'assets/characters/char_001_portrait.png');
+    this.load.image('ash-sprite',    'assets/characters/ash-sprite.png');
+    this.load.image('ash-portrait',  'assets/characters/ash-portrait.png');
+    this.load.image('vera-sprite',   'assets/characters/vera-sprite.png');
+    this.load.image('vera-portrait', 'assets/characters/vera-portrait.png');
 
     // -----------------------------------------------------------------------
-    // Audio
+    // Audio (not in v0.1)
     // -----------------------------------------------------------------------
     // this.load.audio('bgm-menu', 'assets/audio/bgm_menu.ogg');
     // this.load.audio('sfx-pull', 'assets/audio/sfx_pull.ogg');

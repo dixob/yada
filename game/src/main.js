@@ -16,6 +16,11 @@ import GachaScreen from './ui/GachaScreen.js';
 import ShopScreen from './ui/ShopScreen.js';
 import HUD from './ui/HUD.js';
 
+// ── Battle flow (v0.1) ─────────────────────────────────────────────────────
+import StageSelect from './scenes/StageSelect.js';
+import BattleScene from './scenes/BattleScene.js';
+import ResultScreen from './scenes/ResultScreen.js';
+
 const config = {
   type: Phaser.AUTO,           // Use WebGL if available, fall back to Canvas
   width: GAME_WIDTH,
@@ -30,10 +35,14 @@ const config = {
     Boot,        // 1. Minimal boot — sets up scale, loads loading bar assets
     Preloader,   // 2. Full preload — loads all game assets with progress bar
     MainMenu,    // 3. Main menu — play, gacha, shop, settings
-    Game,        // 4. Core gameplay scene
-    HUD,         // 5. HUD overlay (gem count, stamina, back button) — runs alongside Game
+    Game,        // 4. Legacy game stub (redirects to StageSelect)
+    HUD,         // 5. HUD overlay (gem count, stamina, back button)
     GachaScreen, // 6. Gacha pull UI
     ShopScreen,  // 7. IAP shop
+    // ── Battle flow (v0.1) ────────────────────────────────────────────────
+    StageSelect, // 8. Mission briefing + party preview
+    BattleScene, // 9. Core card-based combat
+    ResultScreen,// 10. Victory / defeat + retry
   ],
 };
 

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREQUENCY — Battle Screen Mockup</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0e1f33;
+      --navy-mid:#152840;
+      --blue:    #1c3f63;
+      --accent:  #4b78b0;
+      --violet:  #6b4fa0;
+      --violet-l:#9d7fd4;
+      --pulse:   #b06ab3;
+      --dim:     rgba(255,255,255,0.08);
+      --border:  rgba(255,255,255,0.10);
+      --text:    #d4dde8;
+      --text-dim:#7a9ab8;
+      --white:   #eef2f7;
+      --red:     #c0392b;
+      --green:   #1a8a5a;
+      --sp:      #4a9eca;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #080e18;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    /* ── GAME SCREEN ── */
+    .screen {
+      width: 1024px; height: 640px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 80px rgba(75,120,176,0.15);
+    }
+
+    /* ── BACKGROUND ── */
+    .bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg,
+          #0a1624 0%,
+          #0d1e35 35%,
+          #111e2e 65%,
+          #0e1620 100%
+        );
+    }
+    /* City silhouette */
+    .bg::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1024' height='640' viewBox='0 0 1024 640'%3E%3Crect width='1024' height='640' fill='none'/%3E%3Crect x='0' y='380' width='40' height='260' fill='%230a1520'/%3E%3Crect x='30' y='350' width='60' height='290' fill='%230c1a2a'/%3E%3Crect x='80' y='400' width='50' height='240' fill='%230a1520'/%3E%3Crect x='120' y='340' width='80' height='300' fill='%230b1826'/%3E%3Crect x='190' y='420' width='40' height='220' fill='%230a1520'/%3E%3Crect x='820' y='360' width='70' height='280' fill='%230b1826'/%3E%3Crect x='880' y='330' width='90' height='310' fill='%230c1a2a'/%3E%3Crect x='960' y='390' width='64' height='250' fill='%230a1520'/%3E%3Crect x='600' y='410' width='50' height='230' fill='%230a1520'/%3E%3Crect x='640' y='375' width='75' height='265' fill='%230b1826'/%3E%3Crect x='705' y='420' width='45' height='220' fill='%230a1520'/%3E%3C/svg%3E");
+      background-size: cover;
+      opacity: 0.9;
+    }
+    /* Resonance ambient glow */
+    .bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 50% 30% at 35% 60%, rgba(107,79,160,0.08) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 25% at 65% 55%, rgba(28,63,99,0.12) 0%, transparent 60%);
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 52px;
+      background: linear-gradient(180deg, rgba(10,22,36,0.97) 0%, rgba(10,22,36,0.6) 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px;
+      z-index: 10;
+    }
+    .stage-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .stage-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px; font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .turn-block {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .turn-pip {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+    .turn-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+    .turn-count {
+      font-weight: 700; color: var(--white);
+    }
+    .topbar-right {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .auto-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 4px 12px; border-radius: 2px;
+      text-transform: uppercase; cursor: pointer;
+    }
+    .speed-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    /* ── BATTLE FIELD ── */
+    .field {
+      position: absolute; top: 52px; left: 0; right: 0; bottom: 164px;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      padding: 0 60px 20px;
+    }
+
+    /* ── PLAYER SIDE (left) ── */
+    .player-side {
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+    }
+    .player-sprite-wrap {
+      position: relative;
+      filter: drop-shadow(0 0 20px rgba(107,79,160,0.35))
+              drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+    }
+    .player-sprite {
+      height: 320px;
+      width: auto;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+    }
+    /* Resonance shimmer effect under sprite */
+    .resonance-pool {
+      position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+      width: 160px; height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(107,79,160,0.4) 0%, transparent 70%);
+    }
+    .player-stats {
+      margin-top: 10px;
+      width: 180px;
+    }
+    .char-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .hp-bar-wrap {
+      position: relative; margin-bottom: 4px;
+    }
+    .hp-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      display: flex; justify-content: space-between;
+    }
+    .bar-track {
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+    .bar-fill.hp  { background: linear-gradient(90deg, #1a6a3a, #1fab64); width: 78%; }
+    .bar-fill.sp  { background: linear-gradient(90deg, #1a5580, #2a9ed4); width: 55%; }
+
+    /* ── CENTER FIELD ── */
+    .center-field {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 12px;
+      flex: 1;
+    }
+    .vs-divider {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.12);
+      text-align: center;
+    }
+    .signal-indicator {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 6px 16px;
+      text-align: center;
+    }
+    .signal-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .signal-dots {
+      display: flex; gap: 4px; justify-content: center;
+    }
+    .sdot {
+      width: 7px; height: 7px; border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+    .sdot.filled { background: var(--violet-l); border-color: var(--violet-l); box-shadow: 0 0 4px var(--violet-l); }
+
+    /* ── ENEMY SIDE (right) ── */
+    .enemy-side {
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .enemy-sprite-wrap {
+      height: 280px; width: 180px;
+      display: flex; align-items: flex-end; justify-content: center;
+      position: relative;
+    }
+    .enemy-silhouette {
+      width: 130px; height: 220px;
+      background: linear-gradient(180deg, rgba(180,30,30,0.08) 0%, rgba(140,20,20,0.15) 100%);
+      border: 1px solid rgba(180,30,30,0.15);
+      clip-path: polygon(15% 0%, 85% 0%, 100% 12%, 100% 88%, 85% 100%, 15% 100%, 0% 88%, 0% 12%);
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      filter: drop-shadow(0 0 12px rgba(180,30,30,0.15));
+    }
+    .enemy-icon {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.15em;
+      color: rgba(200,80,80,0.6);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+    .enemy-blur {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 8px,
+        rgba(180,30,30,0.04) 8px,
+        rgba(180,30,30,0.04) 9px
+      );
+    }
+    .enemy-hp-bar {
+      position: absolute; top: -24px; left: 50%; transform: translateX(-50%);
+      width: 130px;
+    }
+    .enemy-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.12em;
+      color: rgba(200,80,80,0.7);
+      text-transform: uppercase;
+      text-align: center; margin-bottom: 3px;
+    }
+    .bar-fill.enemy-fill { background: linear-gradient(90deg, #6a1010, #c0392b); width: 42%; }
+    .enemy-stats {
+      margin-top: 10px; width: 160px;
+    }
+    .enemy-char-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(200,120,120,0.8);
+      text-align: center; margin-bottom: 4px;
+    }
+
+    /* ── BOTTOM PANEL ── */
+    .bottom-panel {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 164px;
+      background: linear-gradient(0deg, rgba(8,14,24,0.99) 0%, rgba(10,18,30,0.96) 70%, rgba(10,20,32,0.5) 100%);
+      border-top: 1px solid var(--border);
+      padding: 14px 20px 16px;
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 10;
+    }
+    .sp-row {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .sp-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--sp);
+      text-transform: uppercase;
+      white-space: nowrap;
+      width: 80px;
+    }
+    .sp-track {
+      flex: 1; height: 4px;
+      background: rgba(74,158,202,0.15);
+      border-radius: 2px; overflow: hidden;
+    }
+    .sp-fill {
+      height: 100%;
+      width: 55%;
+      background: linear-gradient(90deg, #1a6b9a, #4a9eca);
+      border-radius: 2px;
+    }
+    .sp-value {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 600;
+      color: var(--sp);
+      white-space: nowrap;
+    }
+
+    /* ── CARD HAND ── */
+    .card-hand {
+      display: flex; gap: 8px; align-items: flex-end;
+      justify-content: center;
+    }
+
+    .card {
+      width: 126px; height: 100px;
+      background: linear-gradient(145deg, rgba(21,40,64,0.95) 0%, rgba(14,28,46,0.97) 100%);
+      border: 1px solid rgba(75,120,176,0.22);
+      border-radius: 4px;
+      padding: 8px 9px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(107,79,160,0.6);
+    }
+    .card.selected {
+      border-color: rgba(107,79,160,0.9);
+      background: linear-gradient(145deg, rgba(40,28,70,0.97) 0%, rgba(28,20,52,0.98) 100%);
+    }
+    .card.selected::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(107,79,160,0.08) 0%, transparent 60%);
+    }
+    .card.dimmed {
+      opacity: 0.55;
+      filter: saturate(0.5);
+    }
+    /* card glow on selected */
+    .card.selected::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--violet-l), transparent);
+    }
+
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-thumb {
+      width: 24px; height: 24px; border-radius: 2px;
+      overflow: hidden; flex-shrink: 0;
+      border: 1px solid rgba(107,79,160,0.4);
+      background: rgba(0,0,0,0.3);
+    }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .card-cost {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 700;
+      color: var(--sp);
+      border: 1px solid rgba(74,158,202,0.3);
+      border-radius: 2px;
+      padding: 1px 5px;
+      letter-spacing: 0.05em;
+    }
+    .card-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .card-desc {
+      font-size: 9px; font-weight: 400;
+      color: var(--text-dim);
+      line-height: 1.45;
+      flex: 1;
+    }
+    .card-type {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 8px; font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(107,79,160,0.7);
+    }
+
+    /* ── CONFIRM ROW ── */
+    .confirm-row {
+      position: absolute; bottom: 14px; right: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .skip-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+    .confirm-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, rgba(107,79,160,0.7), rgba(75,120,176,0.6));
+      border: 1px solid rgba(107,79,160,0.5);
+      border-radius: 2px;
+    }
+
+    /* ── LABEL: MOCKUP ── */
+    .mockup-label {
+      position: absolute; top: 14px; right: 20px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.18);
+      text-transform: uppercase;
+    }
+    .cards-selected-counter {
+      position: absolute; bottom: 14px; left: 20px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .cards-selected-counter span {
+      color: var(--violet-l);
+    }
+  </style>
+</head>
+<body>
+  <div class="screen">
+    <div class="bg"></div>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div>
+        <div class="stage-label">Act I — Stage 7</div>
+        <div class="stage-name">The Meridian Intercept</div>
+      </div>
+      <div class="turn-block">
+        <div class="turn-pip"></div>
+        <div class="turn-text">TURN <span class="turn-count">04</span> / 20</div>
+      </div>
+      <div class="topbar-right">
+        <span class="mockup-label">battle screen — mockup</span>
+        <div class="auto-btn">Auto</div>
+        <div class="speed-btn">2×</div>
+      </div>
+    </div>
+
+    <!-- BATTLE FIELD -->
+    <div class="field">
+
+      <!-- PLAYER SIDE -->
+      <div class="player-side">
+        <div class="player-sprite-wrap">
+          <div class="resonance-pool"></div>
+          <img class="player-sprite" src="../characters/Ash/ash-sprite.png" alt="Ash" />
+        </div>
+        <div class="player-stats">
+          <div class="char-name">ASH</div>
+          <div class="hp-bar-wrap">
+            <div class="hp-label">
+              <span>HP</span><span>3,840 / 4,900</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill hp"></div></div>
+          </div>
+          <div class="hp-bar-wrap" style="margin-top:5px">
+            <div class="hp-label">
+              <span style="color:var(--sp)">SP</span><span style="color:var(--sp)">66 / 120</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill sp"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER -->
+      <div class="center-field">
+        <div class="signal-indicator">
+          <div class="signal-label">Resonance Index</div>
+          <div class="signal-dots">
+            <div class="sdot filled"></div>
+            <div class="sdot filled"></div>
+            <div class="sdot filled"></div>
+            <div class="sdot"></div>
+            <div class="sdot"></div>
+          </div>
+        </div>
+        <div class="vs-divider">◆</div>
+      </div>
+
+      <!-- ENEMY SIDE -->
+      <div class="enemy-side">
+        <div class="enemy-sprite-wrap">
+          <div class="enemy-hp-bar">
+            <div class="enemy-label">Silence Operative — Lv. 18</div>
+            <div class="bar-track">
+              <div class="bar-fill enemy-fill"></div>
+            </div>
+          </div>
+          <div class="enemy-silhouette">
+            <div class="enemy-blur"></div>
+            <div class="enemy-icon">Silence</div>
+          </div>
+        </div>
+        <div class="enemy-stats">
+          <div class="enemy-char-name">VOSS</div>
+          <div class="hp-label" style="justify-content:center; color:rgba(200,80,80,0.5)">
+            <span>2,051 / 4,900</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /field -->
+
+    <!-- BOTTOM PANEL -->
+    <div class="bottom-panel">
+      <div class="sp-row">
+        <div class="sp-label">Signal Pts</div>
+        <div class="sp-track"><div class="sp-fill"></div></div>
+        <div class="sp-value">66 / 120</div>
+      </div>
+
+      <div class="card-hand">
+        <!-- Card 1: OVERWATCH (selected) -->
+        <div class="card selected">
+          <div class="card-header">
+            <div class="card-thumb"><img src="../characters/Ash/ash-portrait.png" alt="Ash"/></div>
+            <div class="card-cost">12 SP</div>
+          </div>
+          <div class="card-name">Overwatch</div>
+          <div class="card-desc">Scan for threats. Apply +15% DEF to all allies for 2 turns.</div>
+          <div class="card-type">Tactical · Ash</div>
+        </div>
+
+        <!-- Card 2: COLD READ (selected) -->
+        <div class="card selected">
+          <div class="card-header">
+            <div class="card-thumb"><img src="../characters/Ash/ash-portrait.png" alt="Ash"/></div>
+            <div class="card-cost">18 SP</div>
+          </div>
+          <div class="card-name">Cold Read</div>
+          <div class="card-desc">Reveal enemy's next action. Target takes +25% damage this turn.</div>
+          <div class="card-type">Resonance · Ash</div>
+        </div>
+
+        <!-- Card 3: EXTRACT (unselected) -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-thumb"><img src="../characters/Ash/ash-portrait.png" alt="Ash"/></div>
+            <div class="card-cost">10 SP</div>
+          </div>
+          <div class="card-name">Extract</div>
+          <div class="card-desc">Remove a negative status from one ally. Restores 200 HP.</div>
+          <div class="card-type">Support · Ash</div>
+        </div>
+
+        <!-- Card 4: generic from another char (dimmed) -->
+        <div class="card dimmed">
+          <div class="card-header">
+            <div class="card-thumb" style="background:rgba(30,100,80,0.3); display:flex;align-items:center;justify-content:center;">
+              <span style="color:rgba(100,200,150,0.5);font-size:10px;font-weight:700;">V</span>
+            </div>
+            <div class="card-cost" style="color:rgba(74,158,202,0.4);border-color:rgba(74,158,202,0.15)">22 SP</div>
+          </div>
+          <div class="card-name" style="color:rgba(200,255,220,0.6)">Trace</div>
+          <div class="card-desc">Vera · Follow a suspect's Resonance trail. +20% ACC for 1 turn.</div>
+          <div class="card-type" style="color:rgba(50,180,100,0.5)">Tactical · Vera</div>
+        </div>
+
+        <!-- Card 5: generic (unselected) -->
+        <div class="card dimmed">
+          <div class="card-header">
+            <div class="card-thumb" style="background:rgba(80,30,30,0.3); display:flex;align-items:center;justify-content:center;">
+              <span style="color:rgba(200,100,100,0.5);font-size:10px;font-weight:700;">M</span>
+            </div>
+            <div class="card-cost" style="color:rgba(74,158,202,0.4);border-color:rgba(74,158,202,0.15)">28 SP</div>
+          </div>
+          <div class="card-name" style="color:rgba(255,200,200,0.6)">Field Triage</div>
+          <div class="card-desc">Marcus · Emergency heal. Restore 800 HP. Marcus takes 150 dmg.</div>
+          <div class="card-type" style="color:rgba(180,80,80,0.5)">Support · Marcus</div>
+        </div>
+      </div>
+
+      <div class="cards-selected-counter">Playing <span>2 / 3</span> cards</div>
+      <div class="confirm-row">
+        <div class="skip-btn">Skip Turn</div>
+        <div class="confirm-btn">Confirm →</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
