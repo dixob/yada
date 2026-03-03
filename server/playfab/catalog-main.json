@@ -1,0 +1,105 @@
+[
+  {
+    "ItemId": "gacha_ticket_standard",
+    "DisplayName": "Standard Ticket",
+    "Description": "A ticket for one pull on the Standard Banner.",
+    "VirtualCurrencyPrices": {},
+    "CanBecomeCharacter": false,
+    "IsStackable": true,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["ticket", "gacha", "standard"]
+  },
+  {
+    "ItemId": "gacha_ticket_featured",
+    "DisplayName": "Featured Ticket",
+    "Description": "A ticket for one pull on the current Featured Banner.",
+    "VirtualCurrencyPrices": {},
+    "CanBecomeCharacter": false,
+    "IsStackable": true,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["ticket", "gacha", "featured"]
+  },
+  {
+    "ItemId": "character_selector_ticket_x1",
+    "DisplayName": "Character Selector Ticket",
+    "Description": "Choose one character from a curated selection. Included with the Starter Pack.",
+    "VirtualCurrencyPrices": {},
+    "CanBecomeCharacter": false,
+    "IsStackable": true,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["ticket", "selector", "starter"]
+  },
+  {
+    "ItemId": "stamina_refill_small",
+    "DisplayName": "Stamina Potion (Small)",
+    "Description": "Restores 60 Stamina.",
+    "VirtualCurrencyPrices": {
+      "GE": 40
+    },
+    "CanBecomeCharacter": false,
+    "IsStackable": true,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["consumable", "stamina"]
+  },
+  {
+    "ItemId": "stamina_refill_large",
+    "DisplayName": "Stamina Potion (Large)",
+    "Description": "Fully restores Stamina to maximum.",
+    "VirtualCurrencyPrices": {
+      "GE": 120
+    },
+    "CanBecomeCharacter": false,
+    "IsStackable": true,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["consumable", "stamina"]
+  },
+  {
+    "ItemId": "battle_pass_token",
+    "DisplayName": "Battle Pass",
+    "Description": "Activates the Battle Pass for the current season. Grants premium rewards on the season track.",
+    "VirtualCurrencyPrices": {},
+    "CanBecomeCharacter": false,
+    "IsStackable": false,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["subscription", "battle_pass", "premium"]
+  },
+  {
+    "ItemId": "placeholder_ssr_char_001",
+    "DisplayName": "[PLACEHOLDER] SSR Character",
+    "Description": "Placeholder SSR character — replace after art direction session.",
+    "VirtualCurrencyPrices": {},
+    "CanBecomeCharacter": true,
+    "IsStackable": false,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["character", "SSR", "placeholder"]
+  },
+  {
+    "ItemId": "placeholder_sr_char_001",
+    "DisplayName": "[PLACEHOLDER] SR Character",
+    "Description": "Placeholder SR character — replace after art direction session.",
+    "VirtualCurrencyPrices": {},
+    "CanBecomeCharacter": true,
+    "IsStackable": false,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["character", "SR", "placeholder"]
+  },
+  {
+    "ItemId": "placeholder_r_char_001",
+    "DisplayName": "[PLACEHOLDER] R Character",
+    "Description": "Placeholder R character — replace after art direction session.",
+    "VirtualCurrencyPrices": {},
+    "CanBecomeCharacter": true,
+    "IsStackable": false,
+    "IsTradable": false,
+    "IsLimitedEdition": false,
+    "Tags": ["character", "R", "placeholder"]
+  }
+]

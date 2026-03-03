@@ -14,6 +14,7 @@ const express = require('express');
 const cors = require('cors');
 
 const stripeRoutes = require('./stripe/routes');
+const gameRoutes = require('./playfab/routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,11 @@ app.use('/api/stripe', stripeRoutes);
 // ---------------------------------------------------------------------------
 app.use(cors({ origin: process.env.APP_URL || '*' }));
 app.use(express.json());
+
+// ---------------------------------------------------------------------------
+// Game API (PlayFab-backed)
+// ---------------------------------------------------------------------------
+app.use('/api/game', gameRoutes);
 
 // ---------------------------------------------------------------------------
 // Health check
