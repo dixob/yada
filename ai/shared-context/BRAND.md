@@ -37,13 +37,27 @@ When writing marketing copy, event descriptions, gacha banners, or any player-fa
 
 ## Visual Direction
 
-**Status:** Pre-art-direction session. Fill in after the IP/art session locks the visual identity.
+**Status:** Locked — art direction session complete (2026-03-03).
 
-- **Overall aesthetic:** [TBD]
-- **Color palette:** [TBD]
-- **Character style:** [TBD — Western, not anime-coded]
-- **UI direction:** [TBD]
-- **What it should NOT look like:** [TBD — add specific references as the art direction session produces them]
+**Overall aesthetic:** Contemporary streetwear meets anime-adjacent illustration. Characters look like real people with strong personal style — not fantasy armor, not school uniforms, not cosplay. The supernatural is underneath the surface, expressed through wrong-feeling environmental details and Resonance color accents, not glowing effects or particle systems.
+
+**Color palette:** Desaturated urban. Concrete, glass, asphalt, sodium light, night sky. Base is cool-toned and real-textured. Resonance expression uses accent colors specific to each character — these appear in eyes, light leaks, and subtle environmental shifts, never as sparkles or halos. Primary characters lean: white/silver/pale gray (Resonance-shifted hair), deep violet/indigo accents, black underlayer.
+
+**Character style:** Anime-adjacent illustration with western sensibility. Clean linework, cool palette, cinematic lighting. Characters dress like real people with strong fashion identity — puffer jackets, structured coats, utility harnesses, tracksuits, contemporary streetwear. Tactical elements (masks, harnesses, straps) are grounded: things someone would actually wear for a real reason. The primary aesthetic register is mask/futuristic/streetwear with a secondary quiet/melancholic current present in lower-key characters.
+
+**Hair rule:** Resonance-activated characters have white, silver, or pale hair (partial or full shift depending on activation intensity and time since activation). This is a visual tell, a narrative signal, and a design system rule. All character portraits respect it.
+
+**Mask rule:** Masks on Resonants are always functional or meaningful — never purely decorative. If a character wears a mask, there is a specific in-world reason. The gas mask / respirator aesthetic is the primary mask register (see Ash). Other mask types must have equivalent narrative grounding.
+
+**Silhouette rule:** Characters must be readable at small sizes (portrait thumbnail, gacha banner icon). Strong silhouette = distinctive hair shape + signature clothing element + one unusual detail. Test every design at 64×64px equivalent.
+
+**What it should NOT look like:**
+- Fantasy armor or mech suits — this is the contemporary real world
+- Warm pastel tones, soft anime aesthetics, school-setting visual conventions
+- Glowing halos, sparkle effects, particle-burst power activations — Resonance is wrong-feeling, not pretty
+- Generic protagonist energy — every character should be immediately distinct
+- Revealing or fanservice-oriented design as the primary appeal register — psychological presence over physical exposure
+- Japanese cultural visual signifiers (school uniforms, traditional garments) in a western-contemporary world
 
 ---
 
@@ -77,5 +91,5 @@ When writing marketing copy, event descriptions, gacha banners, or any player-fa
 ---
 
 *File created: 2026-03-03*
-*Last updated: 2026-03-03*
-*Status: Visual direction section pending art-direction session*
+*Last updated: 2026-03-03 — visual direction locked after art direction session*
+*Status: Complete*
