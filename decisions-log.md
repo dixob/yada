@@ -95,3 +95,21 @@ Running log of all major strategic and product decisions. Append new entries at 
 **Status:** Deferred — art direction session scheduled as next active task
 
 ---
+
+---
+
+### 2026-03-03 — Strategic Mission Clarification
+
+**Decision:** Yada is explicitly a dual-purpose project: (1) a platform for Robert to conduct applied AI research and prove research value, and (2) a sustainable indie game business targeting ~$5K/month in returns.
+
+**Rationale:** Growth is desirable but not the primary goal. The research mission requires a live game with real player data — enough to run statistically meaningful AI experiments (personalization, content generation quality, retention mechanic testing, spend pattern analysis). ~3K–7K MAU provides adequate signal. $5K/mo covers operating costs and sustains the founder without external funding pressure.
+
+**Implications:**
+- Success criteria is "small but profitable and representative," not "maximize revenue"
+- VC / external capital not needed or wanted — keeps research autonomy intact
+- Player base needs enough behavioral diversity (whales, dolphins, minnows) to support AI research, so some growth is still necessary — but as a research enabler, not a business target
+- Conservative P&L scenario (~$5K/mo operating profit by Year 2) is the actual target mode, not the floor
+- Frugal operating model (AI art, organic UA) is correct and aligned with mission
+- Platform should be designed to instrument AI experiments from day one (data capture, A/B frameworks, LLM evaluation hooks)
+
+**Status:** Final — core strategic frame for all subsequent decisions
